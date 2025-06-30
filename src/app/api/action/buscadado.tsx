@@ -2,8 +2,7 @@
 
 import { api } from "@/lib/api"
 import {  getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/route";
-
+import { authOptions } from "../lib/nextAuth";
 
 
 const buscadadoapi = async (cpf?: string, nome?: string, celular?: string) => {

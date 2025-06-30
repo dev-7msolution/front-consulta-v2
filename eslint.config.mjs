@@ -1,24 +1,23 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
+import { FlatCompat } from '@eslint/eslintrc'
+ 
 const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
+  // import.meta.dirname is available after Node.js v20.11.0
+  baseDirectory: import.meta.dirname,
+})
+ 
 const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
 
-  // Aqui você sobrescreve ou desativa regras
   {
-    rules: {
-      "no-console": "off",        // desativa console.log
-      "react/react-in-jsx-scope": "off", // para projetos Next.js
-    },
+    ignores: ["dist/**", "build/**", "node_modules/**"],
   },
-];
+  ...compat.config({
+    extends: ['next'],
+    rules: {
+      'react/no-unescaped-entities': 'off',
+      '@next/next/no-page-custom-font': 'off',
+    },
 
-export default eslintConfig;
+  }),
+]
+ 
+export default eslintConfig
