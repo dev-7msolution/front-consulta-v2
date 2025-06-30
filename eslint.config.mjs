@@ -11,6 +11,14 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
+
+  // Aqui você sobrescreve ou desativa regras
+  {
+    rules: {
+      "no-console": "off",        // desativa console.log
+      "react/react-in-jsx-scope": "off", // para projetos Next.js
+    },
+  },
 ];
 
 export default eslintConfig;
