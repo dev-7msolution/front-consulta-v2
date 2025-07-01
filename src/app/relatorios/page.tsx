@@ -4,46 +4,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
 import { DashboardLayout } from "@/app/components/DashboardLayout"
 import { Database, CalendarDays, CalendarClock } from "lucide-react"
-import { TabelaResultado } from "./components/tableResultado"
 import relatorios from "../api/action/relatorios"
+import { TabelaRelatorios } from "./components/TabelaRelatorios"
 
 
-
-// Dados mocados para o relatório
-const totalConsultas = 1250
-const totalMes = 150
-const totalAno = 800
-
-
-
-
-export default async function RelatoriosPage({
-  searchParams,
- }: {
-  searchParams?: {
-  page?: string;
-  limit?: string;
-  };
-  }) {
-  
+export default async function RelatoriosPage() {
   const relatorio = await relatorios.cardRelatorio(2)
-
   const relatorioMes = await relatorios.cardRelatorioMes(2)
-
   const relatorioDia = await relatorios.cardRelatorioDia(2)
-
-  const currentPage = Number(searchParams?.page) || 1;
-  const limit = Number(searchParams?.limit) || 10;
   
   return (
     <DashboardLayout>
@@ -70,7 +40,7 @@ export default async function RelatoriosPage({
             <CalendarDays className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{relatorioMes.length > 0 ? relatorioMes[0].mes : 0}</div>
+            <div className="text-2xl font-bold">{relatorioMes ? relatorioMes[0].mes : 0}</div>
             <p className="text-xs text-muted-foreground">
               Consultas realizadas no mês atual.
             </p>
@@ -84,7 +54,7 @@ export default async function RelatoriosPage({
             <CalendarClock className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{relatorioDia.length > 0 ? relatorioDia[0].total : 0}</div>
+            <div className="text-2xl font-bold">{relatorioDia ? relatorioDia[0].total : 0}</div>
             <p className="text-xs text-muted-foreground">
               Consultas realizadas no dia atual.
             </p>
@@ -97,9 +67,7 @@ export default async function RelatoriosPage({
             <CardTitle>Histórico de Consultas</CardTitle>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TabelaResultado page={currentPage} limit={limit} />
-            </Table>
+            <TabelaRelatorios />
           </CardContent>
         </Card>
       </div>
