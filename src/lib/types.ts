@@ -13,4 +13,12 @@ export type ApiResponse = {
     busca?: BuscaProps;
   };
   // Outras propriedades da resposta da API, se houver
-}; 
+};
+
+export interface RelatorioProps {
+    nome: string;
+    cpf: string;
+    data_aniversaio: string;
+    ultima_consulta: string;
+    qtde_consulta: number;
+  } 

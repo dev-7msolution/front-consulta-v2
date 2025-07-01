@@ -1,18 +1,20 @@
 import { api } from "@/lib/api"
 import { getServerSession } from "next-auth"
+import { authOptions } from "../lib/nextAuth"
 
-const relatorios = async (id: number) => {
+const relatorios = async (id: number, page: number = 1, limit: number = 10) => {
 
-    const session = await getServerSession()
-    console.log(session)
+    const session = await getServerSession(authOptions)
+    console.log(session?.user)
+
     
-    const response = await api.get(`/rel_consulta_resumido/${id}`, {
+    const response = await api.get(`/rel_consulta_resumido/${id}?page=${page}&limit=${limit}`, {
         headers: {
             Authorization: `Bearer ${session?.accessToken}`
         }
     })
-    console.log(response.data.resultado)
-    return response.data.resultado
+    
+    return response.data
 }
 
 const cardRelatorio = async (id: number) => {
@@ -22,7 +24,30 @@ const cardRelatorio = async (id: number) => {
             Authorization: `Bearer ${session?.accessToken}`
         }
     })
-    return response.data.resultado
+    return response.data.soma_total
 }
 
-export default { relatorios, cardRelatorio }
+
+const cardRelatorioMes = async (id: number) => {
+    const session = await getServerSession()
+
+    const response = await api.get(`/rel_consulta_resumido/${id}`, {
+        headers: {
+            Authorization: `Bearer ${session?.accessToken}`
+        }
+    })
+    return response.data.total_mes
+}
+
+const cardRelatorioDia = async (id: number) => {
+    const session = await getServerSession()
+
+    const response = await api.get(`/rel_consulta_resumido/${id}`, {
+        headers: {
+            Authorization: `Bearer ${session?.accessToken}`
+        }
+    })
+    return response.data.soma_dia
+}
+
+export default { relatorios, cardRelatorio, cardRelatorioMes , cardRelatorioDia}

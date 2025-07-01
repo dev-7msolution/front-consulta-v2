@@ -1,4 +1,3 @@
-
 import {
   Card,
   CardContent,
@@ -16,6 +15,7 @@ import {
 import { DashboardLayout } from "@/app/components/DashboardLayout"
 import { Database, CalendarDays, CalendarClock } from "lucide-react"
 import { TabelaResultado } from "./components/tableResultado"
+import relatorios from "../api/action/relatorios"
 
 
 
@@ -27,9 +27,24 @@ const totalAno = 800
 
 
 
-export default async function RelatoriosPage() {
+export default async function RelatoriosPage({
+  searchParams,
+ }: {
+  searchParams?: {
+  page?: string;
+  limit?: string;
+  };
+  }) {
+  
+  const relatorio = await relatorios.cardRelatorio(2)
 
+  const relatorioMes = await relatorios.cardRelatorioMes(2)
 
+  const relatorioDia = await relatorios.cardRelatorioDia(2)
+
+  const currentPage = Number(searchParams?.page) || 1;
+  const limit = Number(searchParams?.limit) || 10;
+  
   return (
     <DashboardLayout>
       <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
@@ -41,7 +56,7 @@ export default async function RelatoriosPage() {
             <Database className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{totalConsultas}</div>
+            <div className="text-2xl font-bold">{relatorio[0].total_geral}</div>
             <p className="text-xs text-muted-foreground">
               Total de consultas realizadas na plataforma.
             </p>
@@ -55,7 +70,7 @@ export default async function RelatoriosPage() {
             <CalendarDays className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{totalMes}</div>
+            <div className="text-2xl font-bold">{relatorioMes.length > 0 ? relatorioMes[0].mes : 0}</div>
             <p className="text-xs text-muted-foreground">
               Consultas realizadas no mês atual.
             </p>
@@ -64,14 +79,14 @@ export default async function RelatoriosPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Consultas (Ano)
+              Consultas (dia)
             </CardTitle>
             <CalendarClock className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{totalAno}</div>
+            <div className="text-2xl font-bold">{relatorioDia.length > 0 ? relatorioDia[0].total : 0}</div>
             <p className="text-xs text-muted-foreground">
-              Consultas realizadas no ano atual.
+              Consultas realizadas no dia atual.
             </p>
           </CardContent>
         </Card>
@@ -83,7 +98,7 @@ export default async function RelatoriosPage() {
           </CardHeader>
           <CardContent>
             <Table>
-              <TabelaResultado />
+              <TabelaResultado page={currentPage} limit={limit} />
             </Table>
           </CardContent>
         </Card>
