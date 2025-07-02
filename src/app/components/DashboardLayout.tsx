@@ -171,7 +171,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                     size="sm" 
                     variant="ghost"
                     className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50" 
-                    onClick={() => signOut()}
+                    onClick={() => signOut({callbackUrl: "/login"})}
                   >
                     <LogOut className="h-4 w-4 mr-2" />
                     Sair
