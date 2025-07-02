@@ -5,10 +5,10 @@ import { authOptions } from "../lib/nextAuth"
 const relatorios = async (id: number, page: number = 1, limit: number = 10) => {
 
     const session = await getServerSession(authOptions)
-    console.log(session?.user)
+    const new_id = session?.user.id
 
     
-    const response = await api.get(`/rel_consulta_resumido/${id}?page=${page}&limit=${limit}`, {
+    const response = await api.get(`/rel_consulta_resumido/${new_id}?page=${page}&limit=${limit}`, {
         headers: {
             Authorization: `Bearer ${session?.accessToken}`
         }
@@ -18,8 +18,9 @@ const relatorios = async (id: number, page: number = 1, limit: number = 10) => {
 }
 
 const cardRelatorio = async (id: number) => {
-    const session = await getServerSession()
-    const response = await api.get(`/rel_consulta_resumido/${id}`, {
+    const session = await getServerSession(authOptions)
+    const new_id = session?.user.id
+    const response = await api.get(`/rel_consulta_resumido/${new_id}`, {
         headers: {
             Authorization: `Bearer ${session?.accessToken}`
         }
@@ -29,9 +30,10 @@ const cardRelatorio = async (id: number) => {
 
 
 const cardRelatorioMes = async (id: number) => {
-    const session = await getServerSession()
 
-    const response = await api.get(`/rel_consulta_resumido/${id}`, {
+    const session = await getServerSession(authOptions)
+    const new_id = session?.user.id
+    const response = await api.get(`/rel_consulta_resumido/${new_id}`, {
         headers: {
             Authorization: `Bearer ${session?.accessToken}`
         }
@@ -40,9 +42,10 @@ const cardRelatorioMes = async (id: number) => {
 }
 
 const cardRelatorioDia = async (id: number) => {
-    const session = await getServerSession()
+    const session = await getServerSession(authOptions)
+    const new_id = session?.user.id
 
-    const response = await api.get(`/rel_consulta_resumido/${id}`, {
+    const response = await api.get(`/rel_consulta_resumido/${new_id}`, {
         headers: {
             Authorization: `Bearer ${session?.accessToken}`
         }

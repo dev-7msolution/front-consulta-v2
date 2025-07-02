@@ -28,7 +28,7 @@ export default async function RelatoriosPage() {
   const stats = [
     {
       title: "Total de Consultas",
-      value: relatorio[0].total_geral,
+      value: relatorio.length > 0 ? relatorio[0].total_geral : 0,
       description: "Total de consultas realizadas na plataforma",
       icon: Database,
       color: "blue",
@@ -37,7 +37,7 @@ export default async function RelatoriosPage() {
     },
     {
       title: "Consultas do Mês",
-      value: relatorioMes ? relatorioMes[0].mes : 0,
+      value: relatorioMes.length > 0 ? relatorioMes[0].mes : 0,
       description: "Consultas realizadas no mês atual",
       icon: CalendarDays,
       color: "green",
@@ -46,7 +46,7 @@ export default async function RelatoriosPage() {
     },
     {
       title: "Consultas Hoje",
-      value: relatorioDia ? relatorioDia[0].total : 0,
+      value:   relatorioDia.length > 0 ? relatorioDia[0].total : 0,
       description: "Consultas realizadas no dia atual",
       icon: CalendarClock,
       color: "purple",
