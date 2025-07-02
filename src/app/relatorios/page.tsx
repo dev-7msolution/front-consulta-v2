@@ -28,7 +28,7 @@ export default async function RelatoriosPage() {
   const stats = [
     {
       title: "Total de Consultas",
-      value: relatorio.length > 0 ? relatorio[0].total_geral : 0,
+      value: relatorio || 0,
       description: "Total de consultas realizadas na plataforma",
       icon: Database,
       color: "blue",
@@ -37,7 +37,7 @@ export default async function RelatoriosPage() {
     },
     {
       title: "Consultas do Mês",
-      value: relatorioMes.length > 0 ? relatorioMes[0].mes : 0,
+      value: relatorioMes || 0,
       description: "Consultas realizadas no mês atual",
       icon: CalendarDays,
       color: "green",
@@ -46,7 +46,7 @@ export default async function RelatoriosPage() {
     },
     {
       title: "Consultas Hoje",
-      value:   relatorioDia.length > 0 ? relatorioDia[0].total : 0,
+      value: relatorioDia || 0,
       description: "Consultas realizadas no dia atual",
       icon: CalendarClock,
       color: "purple",
@@ -119,7 +119,7 @@ export default async function RelatoriosPage() {
                     </CardTitle>
                     <div className="flex items-center gap-2">
                       <div className="text-2xl font-bold text-gray-900">
-                        {stat.value.toLocaleString()}
+                        {(stat.value || 0).toLocaleString()}
                       </div>
                       <Badge variant="secondary" className={colors.badge}>
                         <TrendingUp className="h-3 w-3 mr-1" />

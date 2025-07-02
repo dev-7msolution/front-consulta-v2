@@ -25,7 +25,12 @@ const cardRelatorio = async (id: number) => {
             Authorization: `Bearer ${session?.accessToken}`
         }
     })
-    return response.data.soma_total
+    // Handle case where soma_total might be an array or object
+    const somaTotal = response.data.soma_total
+    if (Array.isArray(somaTotal) && somaTotal.length > 0) {
+        return somaTotal[0].total_geral || 0
+    }
+    return somaTotal || 0
 }
 
 
@@ -38,7 +43,12 @@ const cardRelatorioMes = async (id: number) => {
             Authorization: `Bearer ${session?.accessToken}`
         }
     })
-    return response.data.total_mes
+    // Handle case where total_mes might be an array or object
+    const totalMes = response.data.total_mes
+    if (Array.isArray(totalMes) && totalMes.length > 0) {
+        return totalMes[0].mes || 0
+    }
+    return totalMes || 0
 }
 
 const cardRelatorioDia = async (id: number) => {
@@ -50,7 +60,12 @@ const cardRelatorioDia = async (id: number) => {
             Authorization: `Bearer ${session?.accessToken}`
         }
     })
-    return response.data.soma_dia
+    // Handle case where soma_dia might be an array or object
+    const somaDia = response.data.soma_dia
+    if (Array.isArray(somaDia) && somaDia.length > 0) {
+        return somaDia[0].total || 0
+    }
+    return somaDia || 0
 }
 
 export default { relatorios, cardRelatorio, cardRelatorioMes , cardRelatorioDia}
